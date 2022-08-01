@@ -13,7 +13,7 @@ export default function CreateStocks() {
     return (
         <div className={
             sidebar ?
-                styles.container
+                `${styles.container} ${styles.active}`
                 : `${styles.container} ${styles.sidebar}`
         }>
             <Header title="Registrar Estoque" />

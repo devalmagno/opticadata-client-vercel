@@ -29,7 +29,7 @@ const Products = () => {
     return (
         <div className={
             sidebar ?
-                styles.container
+                `${styles.container} ${styles.active}`
                 : `${styles.container} ${styles.sidebar}`
         }>
             <Header title="Mercadorias e Produtos"/>
@@ -42,6 +42,7 @@ const Products = () => {
             <section className={styles.main}>
                 <AddButton 
                     title="Adicionar Produto"
+                    link="/products/create"
                 />
 
                 <div className={styles.tables}>

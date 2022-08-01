@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { AiFillMinusSquare, AiFillPlusSquare, AiOutlineFieldNumber } from "react-icons/ai";
+import { AiFillMinusSquare, AiOutlineFieldNumber } from "react-icons/ai";
+import { MdAttachMoney } from "react-icons/md";
 
 import { FormButton } from "../FormButton";
 
@@ -91,7 +92,7 @@ export const StockMovesForm = () => {
                             placeholder="Preço p/ unidade"
                         />
                         <div className={styles.input_icon}>
-                            <AiFillPlusSquare className={`${styles.fa} ${styles.fa_user}`} />
+                            <MdAttachMoney className={`${styles.fa} ${styles.fa_user}`} />
                         </div>
                     </div>
 

@@ -19,6 +19,11 @@
     margin-left: 4rem;
 }
 
+.container.active {
+    padding-left: 17rem;
+}
+
+
 @media (max-width: 767px) {
     .container {
         // width: calc(100% - 4rem);

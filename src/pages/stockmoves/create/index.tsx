@@ -15,7 +15,7 @@ export default function CreateStockMoves() {
     return (
         <div className={
             sidebar ?
-                styles.container
+                `${styles.container} ${styles.active}`
                 : `${styles.container} ${styles.sidebar}`
         }>
             <Header title="Registrar Movimentação de Estoque" />
@@ -24,8 +24,8 @@ export default function CreateStockMoves() {
                 setSidebar={setSidebar}
             />
 
-            <GoBack 
-                title="Estoque" 
+            <GoBack
+                title="Estoque"
             />
 
             <div className={styles.form}>
