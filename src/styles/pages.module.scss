@@ -1,6 +1,6 @@
 .container {
-    width: calc(100% - 16rem);
-    margin-left: 16rem;
+    width: calc(100% - 8rem);
+    margin-left: 8rem;
     padding: 1rem 0;
     padding-left: 1rem;
 
@@ -15,14 +15,14 @@
 }
 
 .container.sidebar {
-    width: calc(100% - 4rem);
-    margin-left: 4rem;
+    width: calc(100% + 4rem);
+    margin-left: -4rem;
 }
 
 @media (max-width: 767px) {
     .container {
         width: calc(100% - 4rem);
-        margin-left: 4rem;
+        margin-left: 7rem;
 
         .buttons {
             flex-direction: column;
