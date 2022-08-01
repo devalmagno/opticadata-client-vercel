@@ -84,10 +84,11 @@ export const StockMovesForm = () => {
                     <div className={`${styles.input_group} ${styles.input_group_icon}`}>
                         <input
                             type="number"
+                            step="0.01"
                             name=""
                             id=""
-                            placeholder="Estoque Máximo"
-                            required
+                            prefix="R$"
+                            placeholder="Preço p/ unidade"
                         />
                         <div className={styles.input_icon}>
                             <AiFillPlusSquare className={`${styles.fa} ${styles.fa_user}`} />
@@ -99,7 +100,7 @@ export const StockMovesForm = () => {
                             type="number"
                             name=""
                             id=""
-                            placeholder="Quantidade Inicial Em Estoque"
+                            placeholder="Quantidade Movimentada"
                             required
                         />
                         <div className={styles.input_icon}>
@@ -119,3 +120,4 @@ export const StockMovesForm = () => {
         </div>
     );
 }
+

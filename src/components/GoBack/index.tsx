@@ -1,4 +1,4 @@
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { MdOutlineArrowBack } from "react-icons/md"
 
 import styles from "./styles.module.scss";
@@ -9,8 +9,10 @@ type Props = {
 
 export default function GoBack({ title }: Props) {
 
+    const router = useRouter();
+
     function handleNavigation() {
-        Router.back();
+        router.back();
     }
 
 

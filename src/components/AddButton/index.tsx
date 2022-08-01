@@ -1,4 +1,4 @@
-import Router from "next/router";
+import { useRouter } from "next/router";
 import styles from "./styles.module.scss";
 
 type Props = {
@@ -7,20 +7,21 @@ type Props = {
 }
 
 export const AddButton = ({ title, link }: Props) => {
+    const router = useRouter();
 
     function handleNavigation() {
         const address = link ? link : "";
 
-        Router.push(address);
+        router.push(address);
     }
 
     return (
         <div className={styles.button}>
-            <button
-                onClick={handleNavigation} 
-            >
-                {title}
-            </button>
+                <button 
+                    onClick={handleNavigation} 
+                >
+                    {title}
+                </button>
         </div>
     )
 }
