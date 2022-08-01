@@ -113,6 +113,7 @@
    display: block;
 
    font-weight: 500;
+   z-index: 999;
 }
 
 .sidebar.active ul li .tooltip {
@@ -258,6 +259,7 @@
    .sidebar {
       position: fixed;
       height: 100%;
+      
       z-index: 999;
    }
 }

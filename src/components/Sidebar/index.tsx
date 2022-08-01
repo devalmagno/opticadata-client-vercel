@@ -41,7 +41,6 @@ type Collaborator = {
 const Sidebar = ({ setSidebar, sidebar }: Props) => {
     const { user, collaborator } = useContext(AuthContext);
 
-    const [sideBar, setSideBar] = useState(false);
     const [showOrderSidebar, setShowOrderSidebar] = useState(false);
     const [settings, setSettings] = useState<Settings>()
 
@@ -61,7 +60,7 @@ const Sidebar = ({ setSidebar, sidebar }: Props) => {
     return (
         <div
             className={
-                !sideBar ? `${styles.sidebar} ${styles.active}` : styles.sidebar
+                !sidebar ? `${styles.sidebar} ${styles.active}` : styles.sidebar
             }
         >
             <div className={styles.logo_content}>
@@ -72,7 +71,6 @@ const Sidebar = ({ setSidebar, sidebar }: Props) => {
                 <div
                     className={styles.menu}
                     onClick={() => {
-                        setSideBar(!sideBar);
                         setSidebar(!sidebar);
                     }}
                 >

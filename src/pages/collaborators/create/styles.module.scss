@@ -1,6 +1,7 @@
 .container {
-    width: calc(100% - 16rem);
-    margin-left: 16rem;
+    width: 100%;
+    height: 100%;
+    // margin-left: 16rem;
     padding: 1rem 0;
     padding-left: 1rem;
 
@@ -15,12 +16,11 @@
 }
 
 .container.sidebar {
-    width: calc(100% - 4rem);
-    margin-left: 4rem;
+    padding-left: 17rem;
 }
 
 .container.active {
-    padding-left: 17rem;
+    padding-left: 5rem;
 }
 
 
