@@ -253,3 +253,11 @@
 
    color: var(--bg-secondary);
 }
+
+@media (max-width: 767px) {
+   .sidebar {
+      height: 100%;
+      position: fixed;
+      z-index: 999;
+   }
+}

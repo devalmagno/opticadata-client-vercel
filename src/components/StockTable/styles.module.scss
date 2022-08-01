@@ -75,8 +75,8 @@
         border-bottom: none;
     }
     .fl_table thead {
-        position: fixed;
         z-index: 99;
+        position: absolute;
         float: left;
     }
     .fl_table tbody {

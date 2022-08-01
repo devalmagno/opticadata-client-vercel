@@ -19,3 +19,15 @@
     margin-left: 4rem;
 }
 
+@media (max-width: 767px) {
+    .container {
+        width: calc(100% - 4rem);
+        margin-left: 4rem;
+
+        .buttons {
+            flex-direction: column;
+            row-gap: 0.5rem;
+            align-items: flex-start;
+        }
+    }
+}
