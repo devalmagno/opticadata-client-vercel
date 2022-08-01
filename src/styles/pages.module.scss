@@ -1,6 +1,6 @@
 .container {
-    width: calc(100% - 8rem);
-    margin-left: 8rem;
+    width: calc(100% - 16rem);
+    margin-left: 16rem;
     padding: 1rem 0;
     padding-left: 1rem;
 
@@ -15,19 +15,24 @@
 }
 
 .container.sidebar {
-    width: calc(100% + 4rem);
-    margin-left: -4rem;
+    width: calc(100% - 4rem);
+    margin-left: 4rem;
 }
 
 @media (max-width: 767px) {
     .container {
-        width: calc(100% - 4rem);
-        margin-left: 7rem;
+        // width: calc(100% - 4rem);
+        width: 100%;
+        margin-left: 0rem;
 
         .buttons {
             flex-direction: column;
             row-gap: 0.5rem;
             align-items: flex-start;
         }
+    }
+
+    .container.sidebar {
+        width: 100%;
     }
 }
