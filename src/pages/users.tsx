@@ -9,6 +9,7 @@ import styles from "../styles/pages.module.scss";
 import { api } from "../services/api";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
+import Link from "next/link";
 
 type User = {
     user_col_id: string;
@@ -55,14 +56,16 @@ const Users = () => {
                 : `${styles.container} ${styles.sidebar}`
         }>
             <Header title="Usuários" />
-            <Sidebar 
+            <Sidebar
                 sidebar={sidebar}
                 setSidebar={setSidebar}
             />
 
             <AddButton
                 title="Adicionar Colaborador"
+                link="/collaborators/create"
             />
+
 
             <div className={styles.tables}>
                 <CollaboratorTable

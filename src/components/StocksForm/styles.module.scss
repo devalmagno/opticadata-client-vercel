@@ -38,7 +38,7 @@
         color: var(--gray-200);
     }
 
-    input:focus + .input_icon .fa {
+    input:focus+.input_icon .fa {
         color: var(--purple-300);
     }
 
@@ -213,4 +213,33 @@
             clear: both;
         }
     }
+
+    .col_half {
+        width: 100%;
+
+        .input_group {
+            display: flex;
+            align-items: center;
+
+            span {
+                font-size: 0.9rem;
+            }
+        }
+
+        select {
+            width: 100%;
+            margin-left: 1rem;
+        }
+    }
+
+    .col_half:last-of-type {
+        padding-right: 0;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+  .col_half {
+    width: 100%;
+    padding-right: 0;
+  }
 }

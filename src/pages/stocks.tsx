@@ -95,9 +95,11 @@ const Stocks = () => {
                 <div className={styles.buttons}>
                     <AddButton
                         title="Registrar Estoque"
+                        link="/stocks/create"
                     />
                     <AddButton
                         title="Registrar Movimentação de Estoque"
+                        link="/stockmoves/create"
                     />
                 </div>
 
