@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
-import { AiFillMinusSquare, AiOutlineFieldNumber } from "react-icons/ai";
-import { MdAttachMoney } from "react-icons/md";
+import { BiSearchAlt } from "react-icons/bi";
+import { MdDeliveryDining } from "react-icons/md";
 
-import { FormButton } from "../FormButton";
-
-import { Product } from '../../pages/orders';
-import { Stocks } from '../../pages/stocks';
+import { Product } from "../../pages/orders";
+import { Stocks } from "../../pages/stocks";
 
 import { api } from "../../services/api";
+import { AddButton } from "../AddButton";
 
 import styles from "./styles.module.scss";
 
-export const StockMovesForm = () => {
+export const SaleForm = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [stocks, setStocks] = useState<Stocks[]>([]);
 
@@ -36,35 +35,23 @@ export const StockMovesForm = () => {
         });
     });
 
+
     return (
         <div className={styles.container}>
-            <form action="" >
-                <div className={styles.row}>
-                    <h4>Movimentação de Estoque</h4>
+            <form action="">
+                    <h4>Ficha de Venda</h4>
 
                     <div className={styles.col_half}>
                         <div className={`${styles.input_group} ${styles.input_group_icon}`}>
-                            <span>Estoque do Produto: </span>
+                            <span>Produto: </span>
                             <select name="stock" id="stock">
                                 {stocks.map(sto => (
                                     <option key={sto.sto_id} value={sto.sto_pro_id}>
-                                        {sto.product?.pro_desc}
+                                        {sto.product?.pro_desc} {' - '}
+                                        Qtde. {sto.sto_quantity} {' - '}
+                                        Preço R$ {' '} {sto.product?.pro_unit_price}
                                     </option>
                                 ))}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className={styles.col_half}>
-                        <div className={`${styles.input_group} ${styles.input_group_icon}`}>
-                            <span>Tipo de Movimentação </span>
-                            <select name="type" id="type">
-                                <option  value="E">
-                                    Entrada
-                                </option>
-                                <option  value="S">
-                                    Saída
-                                </option>
                             </select>
                         </div>
                     </div>
@@ -74,51 +61,76 @@ export const StockMovesForm = () => {
                             type="text"
                             name=""
                             id=""
-                            placeholder="Descrição da Movimentação"
-                            required
+                            placeholder="Pesquisar Produto"
                         />
                         <div className={styles.input_icon}>
-                            <AiFillMinusSquare className={`${styles.fa} ${styles.fa_user}`} />
+                            <BiSearchAlt className={`${styles.fa} ${styles.fa_user}`} />
+                        </div>
+                    </div>
+
+                    <div className={styles.col_half}>
+                        <div className={`${styles.input_group} ${styles.input_group_icon}`}>
+                            <span>Cliente: </span>
+                            <select name="customer" id="customer">
+                           </select>
                         </div>
                     </div>
 
                     <div className={`${styles.input_group} ${styles.input_group_icon}`}>
                         <input
-                            type="number"
-                            step="0.01"
+                            type="text"
                             name=""
                             id=""
-                            prefix="R$"
-                            placeholder="Preço p/ unidade"
+                            placeholder="Pesquisar Cliente CPF"
                         />
                         <div className={styles.input_icon}>
-                            <MdAttachMoney className={`${styles.fa} ${styles.fa_user}`} />
+                            <BiSearchAlt className={`${styles.fa} ${styles.fa_user}`} />
+                        </div>
+                    </div>
+
+                    <h4>Entrega</h4>
+
+                    <div className={styles.col_half}>
+                        <div className={`${styles.input_group} ${styles.input_group_icon}`}>
+                            <span>Endereço: </span>
+                            <select name="customer_address" id="customer_address">
+                           </select>
                         </div>
                     </div>
 
                     <div className={`${styles.input_group} ${styles.input_group_icon}`}>
                         <input
-                            type="number"
+                            type="text"
                             name=""
                             id=""
-                            placeholder="Quantidade Movimentada"
-                            required
+                            placeholder="Pesquisar Endereço"
                         />
                         <div className={styles.input_icon}>
-                            <AiOutlineFieldNumber className={`${styles.fa} ${styles.fa_user}`} />
+                            <BiSearchAlt className={`${styles.fa} ${styles.fa_user}`} />
                         </div>
                     </div>
-                </div>
-                <div className={styles.row}>
-                    <h4></h4>
+
                     <div className={`${styles.input_group} ${styles.input_group_icon}`}>
-                        <FormButton
-                            title="Registrar"
+                        <input
+                            type="date"
+                            name=""
+                            id=""
                         />
+                        <div className={styles.input_icon}>
+                            <MdDeliveryDining className={`${styles.fa} ${styles.fa_user}`} />
+                        </div>
                     </div>
-                </div>
+
+                    <h4>Receita Médica</h4>
+                    <div className={`${styles.input_group} ${styles.input_group_icon}`}>
+                        <input
+                            id="doctor_prescription"
+                            type="checkbox"
+                            name=""
+                        />
+                        <label htmlFor="doctor_prescription">Sim</label>
+                    </div>
             </form>
         </div>
     );
 }
-

@@ -114,7 +114,7 @@ const Sidebar = ({ setSidebar, sidebar }: Props) => {
                 ) : ''}
 
                 <li>
-                    <Link href="/orders">
+                    <Link href="/sales">
                         <a>
                             <FaShoppingCart className={styles.icons} />
                             <span className={styles.links_name}>Vendas</span>
