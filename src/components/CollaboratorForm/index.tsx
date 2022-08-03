@@ -1,15 +1,47 @@
+import { useRouter } from "next/router";
+import { FormEvent, KeyboardEvent, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { HiIdentification, HiOfficeBuilding } from "react-icons/hi";
+import { api } from "../../services/api";
 
 import { FormButton } from "../FormButton";
 
 import styles from "./styles.module.scss";
 
 export const CollaboratorForm = () => {
+    const [name, setName] = useState("");
+    const [occupation, setOccupation] = useState("");
+    const [cpf, setCPF] = useState("");
+
+    const router = useRouter();
+
+    const handleCPF = (e: KeyboardEvent<HTMLInputElement>) => {
+        const regex = /[0-9]|\./;
+
+        if (e.key == 'Backspace') return;
+        if (!regex.test(e.key)) e.preventDefault();
+        if (cpf.length == 3) setCPF(`${cpf}.`);
+        if (cpf.length == 7) setCPF(`${cpf}.`);
+        if (cpf.length == 11) setCPF(`${cpf}-`);
+    }
+
+    const createCollaborator = (e: FormEvent) => {
+        e.preventDefault();
+
+        api.post('/collaborators/create', {
+            col_name: name,
+            col_function: occupation,
+            col_cpf: cpf
+        }).then(res => {
+            window.alert(`Colaborador ${res.data.col_name} criado com sucesso!`)
+
+            router.push('/users');
+        }).catch(err => console.log(err));
+    }
 
     return (
         <div className={styles.container}>
-            <form action="" >
+            <form onSubmit={e => createCollaborator(e)} >
                 <div className={styles.row}>
                     <h4>Colaborador</h4>
 
@@ -18,6 +50,8 @@ export const CollaboratorForm = () => {
                             type="text"
                             name=""
                             id=""
+                            value={name}
+                            onChange={e => setName(e.target.value)}
                             maxLength={26}
                             placeholder="Nome"
                             required
@@ -30,6 +64,9 @@ export const CollaboratorForm = () => {
                     <div className={`${styles.input_group} ${styles.input_group_icon}`}>
                         <input
                             type="text"
+                            value={cpf}
+                            onChange={(e) => setCPF(e.target.value)}
+                            onKeyDown={(e) => handleCPF(e)}
                             name=""
                             id=""
                             maxLength={14}
@@ -45,6 +82,8 @@ export const CollaboratorForm = () => {
                         <input
                             type="text"
                             name=""
+                            value={occupation}
+                            onChange={e => setOccupation(e.target.value)} 
                             id=""
                             maxLength={26}
                             placeholder="Cargo"
@@ -58,7 +97,7 @@ export const CollaboratorForm = () => {
                 <div className={styles.row}>
                     <h4></h4>
                     <div className={`${styles.input_group} ${styles.input_group_icon}`}>
-                        <FormButton 
+                        <FormButton
                             title="Adicionar"
                         />
                     </div>
