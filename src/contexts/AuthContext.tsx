@@ -17,6 +17,7 @@ type SignInDataType = {
 type UserType = {
     user_id: string;
     user_col_id: string;
+    user_cpf: string;
     user_is_admin: string;
     created_at: string;
     updated_at: string;
@@ -74,6 +75,16 @@ const AuthProvider = ({ children }: AuxPropsType) => {
 
             setUser(user);
             setCollaborator(collaborator);
+
+            api.post('/userlogs/create', {
+                ulog_user_id: user.user_id,
+                ulog_user_cpf: user.user_cpf,
+                ulog_action: "Login"
+            }).then(res => {
+                console.log("Log created.")
+            }).catch(err => {
+                console.log(err);
+            });
 
             Router.push('/users');
         }

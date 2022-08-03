@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { AiFillMinusSquare, AiOutlineFieldNumber } from "react-icons/ai";
 import { MdAttachMoney } from "react-icons/md";
 
@@ -11,8 +11,10 @@ import { Stocks } from '../../pages/stocks';
 import { api } from "../../services/api";
 
 import styles from "./styles.module.scss";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export const StockMovesForm = () => {
+    const { user } = useContext(AuthContext);
     const [products, setProducts] = useState<Product[]>([]);
     const [stocks, setStocks] = useState<Stocks[]>([]);
 
@@ -64,9 +66,23 @@ export const StockMovesForm = () => {
         }).then(res => {
             window.alert(`Movimentação de Estoque criado com sucesso!`)
 
-            router.push('/stocks');
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            console.log(err);
+            window.alert("Houve um erro.\n" + err);
+            return;
+        });
 
+        api.post('/userlogs/create', {
+            ulog_user_id: user?.user_id,
+            ulog_user_cpf: user?.user_cpf,
+            ulog_action: "Criou Movimentação de Estoque"
+        }).then(res => {
+            console.log("Log created.")
+        }).catch(err => {
+            console.log(err);
+        });
+
+        router.push('/stocks');
     }
 
     return (

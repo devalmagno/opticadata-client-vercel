@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { MdCategory, MdAttachMoney, MdOutlineProductionQuantityLimits } from "react-icons/md";
 
 import { FormButton } from "../FormButton";
@@ -9,8 +9,10 @@ import { Product } from '../../pages/orders';
 import { api } from "../../services/api";
 
 import styles from "./styles.module.scss";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export const ProductsForm = () => {
+    const { user } = useContext(AuthContext);
     const [products, setProducts] = useState<Product[]>([]);
     const [desc, setDesc] = useState("");
     const [type, setType] = useState("");
@@ -36,9 +38,23 @@ export const ProductsForm = () => {
         })
             .then(res => {
                 window.alert(`Produto ${res.data.pro_desc} criado com sucesso!`)
+            }).catch(err => {
+                console.log(err);
+                window.alert("Houve um erro.\n" + err);
+                return;
+            });
 
-                router.push('/products');
-            }).catch(err => console.log(err));
+        api.post('/userlogs/create', {
+            ulog_user_id: user?.user_id,
+            ulog_user_cpf: user?.user_cpf,
+            ulog_action: "Adicionou Produto"
+        }).then(res => {
+            console.log("Log created.")
+        }).catch(err => {
+            console.log(err);
+        });
+
+        router.push('/products');
     }
 
     return (

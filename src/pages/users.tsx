@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { AddButton } from "../components/AddButton";
 import { CollaboratorTable } from "../components/CollaboratorTable";
+import { UserLogsTable } from "../components/UserLogsTable";
 
 import styles from "../styles/pages.module.scss";
 import { api } from "../services/api";
@@ -25,9 +26,17 @@ export type Collaborator = {
     updated_at: Date;
 }
 
+export type UserLogs = {
+    ulog_id: string;
+    ulog_user_cpf: string;
+    ulog_action: string;
+    created_at: Date;
+}
+
 const Users = () => {
     const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
     const [users, setUsers] = useState<User[]>([]);
+    const [userLogs, setUserLogs] = useState<UserLogs[]>([]);
 
     const [sidebar, setSidebar] = useState(true);
 
@@ -40,6 +49,11 @@ const Users = () => {
         api.get('/users')
             .then(res => {
                 setUsers(res.data);
+            }).catch(err => console.log(err));
+
+        api.get('/userlogs')
+            .then(res => {
+                setUserLogs(res.data);
             }).catch(err => console.log(err));
     }, []);
 
@@ -70,6 +84,10 @@ const Users = () => {
             <div className={styles.tables}>
                 <CollaboratorTable
                     collaborators={collaborators}
+                />
+
+                <UserLogsTable
+                    userLogs={userLogs}
                 />
             </div>
         </div>

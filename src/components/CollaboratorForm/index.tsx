@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
-import { FormEvent, KeyboardEvent, useState } from "react";
+import { FormEvent, KeyboardEvent, useContext, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { HiIdentification, HiOfficeBuilding } from "react-icons/hi";
+import { AuthContext } from "../../contexts/AuthContext";
 import { api } from "../../services/api";
 
 import { FormButton } from "../FormButton";
@@ -9,6 +10,7 @@ import { FormButton } from "../FormButton";
 import styles from "./styles.module.scss";
 
 export const CollaboratorForm = () => {
+    const { user } = useContext(AuthContext);
     const [name, setName] = useState("");
     const [occupation, setOccupation] = useState("");
     const [cpf, setCPF] = useState("");
@@ -35,8 +37,23 @@ export const CollaboratorForm = () => {
         }).then(res => {
             window.alert(`Colaborador ${res.data.col_name} criado com sucesso!`)
 
-            router.push('/users');
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            console.log(err);
+            window.alert("Houve um erro.\n" + err);
+            return;
+        });
+
+        api.post('/userlogs/create', {
+            ulog_user_id: user?.user_id,
+            ulog_user_cpf: user?.user_cpf,
+            ulog_action: "Criou Colaborador"
+        }).then(res => {
+            console.log("Log created.")
+        }).catch(err => {
+            console.log(err);
+        });
+
+        router.push('/users');
     }
 
     return (
@@ -83,7 +100,7 @@ export const CollaboratorForm = () => {
                             type="text"
                             name=""
                             value={occupation}
-                            onChange={e => setOccupation(e.target.value)} 
+                            onChange={e => setOccupation(e.target.value)}
                             id=""
                             maxLength={26}
                             placeholder="Cargo"

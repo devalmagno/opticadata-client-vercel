@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { AiFillMinusSquare, AiFillPlusSquare, AiOutlineFieldNumber } from "react-icons/ai";
 
 import { FormButton } from "../FormButton";
@@ -9,8 +9,10 @@ import { Product } from '../../pages/orders';
 import { api } from "../../services/api";
 
 import styles from "./styles.module.scss";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export const StocksForm = () => {
+    const { user } = useContext(AuthContext);
     const [products, setProducts] = useState<Product[]>([]);
 
     const [currentProduct, setCurrentProduct] = useState("");
@@ -41,9 +43,23 @@ export const StocksForm = () => {
             sto_quantity: quantity
         }).then(res => {
             window.alert(`Estoque ${res.data.sto_id} criado com sucesso!`)
+        }).catch(err => {
+            console.log(err);
+            window.alert("Houve um erro.\n" + err);
+            return;
+        });
 
-            router.push('/stocks');
-        }).catch(err => console.log(err));
+        api.post('/userlogs/create', {
+            ulog_user_id: user?.user_id,
+            ulog_user_cpf: user?.user_cpf,
+            ulog_action: "Criou Estoque"
+        }).then(res => {
+            console.log("Log created.")
+        }).catch(err => {
+            console.log(err);
+        });
+
+        router.push('/stocks');
 
     }
 

@@ -52,6 +52,16 @@ const Sidebar = ({ setSidebar, sidebar }: Props) => {
     }, []);
 
     const handleLogOut = () => {
+            api.post('/userlogs/create', {
+                ulog_user_id: user?.user_id,
+                ulog_user_cpf: user?.user_cpf,
+                ulog_action: "Loggof"
+            }).then(res => {
+                console.log("Log created.")
+            }).catch(err => {
+                console.log(err);
+            });
+
         destroyCookie(null, "opdauth.token");
 
         Router.push("/");
