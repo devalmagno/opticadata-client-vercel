@@ -18,7 +18,7 @@ export const StockMovesForm = () => {
 
     const [stockId, setStockId] = useState("");
     const [desc, setDesc] = useState("");
-    const [type, setType] = useState("");
+    const [type, setType] = useState("E");
     const [price, setPrice] = useState<number>();
     const [quantity, setQuantity] = useState<number>();
 
