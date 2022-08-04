@@ -94,7 +94,7 @@ const Sidebar = ({ setSidebar, sidebar }: Props) => {
                 (
                     <div className={styles.optics_settings}>
                         <strong>{settings.optics_name}</strong>
-                        <span>{settings.optics_unit}</span>
+                        <span>Unidade {settings.optics_unit}</span>
                     </div>
                 )}
 
