@@ -1,14 +1,23 @@
+import { GetStaticProps } from "next";
+import { useRouter } from "next/router";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 import { Collaborator } from "../../pages/users";
+import { api } from "../../services/api";
 
 import styles from "./styles.module.scss";
 
 type Props = {
     collaborators: Collaborator[];
+    hide?: boolean;
 }
 
-export const CollaboratorTable = ({ collaborators }: Props) => {
+export const CollaboratorTable = ({ collaborators, hide = false }: Props) => {
+    const router = useRouter();
+
+    const navigateToEditCollaborator = (id: string) => {
+        router.push(`/collaborators/edit/${id}`);
+    }
 
     return (
         <div className={styles.table_wrapper}>
@@ -20,20 +29,21 @@ export const CollaboratorTable = ({ collaborators }: Props) => {
                             Nome
                         </th>
                         <th>
-                            CPF                       
+                            CPF
                         </th>
                         <th>
                             Usuário
                         </th>
                         <th>
-                            Cargo 
+                            Cargo
                         </th>
-                        <th>
-                            Editar
-                        </th>
-                        <th>
-                            Remover
-                        </th>
+                        {
+                            !hide ?
+                                <th>
+                                    Editar
+                                </th> :
+                                <></>
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -49,16 +59,14 @@ export const CollaboratorTable = ({ collaborators }: Props) => {
                                 {col.isUser ? "Sim" : "Não"}
                             </td>
                             <td>{col.col_function}</td>
-                            <td
-                                style={{cursor: "pointer"}}
-                            >
-                                <FiEdit />
-                            </td>
-                            <td
-                                style={{cursor: "pointer"}}
-                            >
-                                <FiTrash2 />
-                            </td>
+                            {!hide ?
+                                <td
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => navigateToEditCollaborator(col.col_id)}
+                                >
+                                    <FiEdit />
+                                </td> : <></>
+                        }
                         </tr>
                     ))}
                 </tbody>
@@ -66,3 +74,4 @@ export const CollaboratorTable = ({ collaborators }: Props) => {
         </div>
     );
 }
+
