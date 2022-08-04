@@ -77,9 +77,9 @@
     input:checked+label:before,
     select:focus,
     select:active {
-        background-color: #f0a500;
+        background-color: var(--purple-300);
         color: #fff;
-        border-color: #bd8200;
+        border-color: var(--purple-300);
     }
 
     input[type="checkbox"] {
@@ -139,7 +139,7 @@
     }
 
     select option {
-        background-color: #f0a500;
+        background-color: var(--purple-300);
         color: #fff;
     }
 
