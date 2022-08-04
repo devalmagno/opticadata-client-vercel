@@ -15,7 +15,7 @@ import styles from "./styles.module.scss";
 export default function EditCollaborator() {
     const router = useRouter();
     const [sidebar, setSidebar] = useState(true);
-    const [collaborator, setCollaborator] = useState<Collaborator>();
+    const [collaborator, setCollaborator] = useState<Collaborator | null>(null);
 
     const { slug } = router.query;
 
@@ -34,7 +34,7 @@ export default function EditCollaborator() {
                 `${styles.container} ${styles.active}`
                 : `${styles.container} ${styles.sidebar}`
         }>
-            <Header title={`Editar Colaborador ${collaborator!.col_name}`} />
+            <Header title={`Editar Colaborador ${collaborator?.col_name}`} />
             <Sidebar
                 sidebar={sidebar}
                 setSidebar={setSidebar}
@@ -45,10 +45,12 @@ export default function EditCollaborator() {
             />
 
             <div className={styles.tables}>
-                <CollaboratorTable
-                    collaborators={[collaborator!]}
-                    hide={true}
-                />
+                {collaborator ?
+                    (<CollaboratorTable
+                        collaborators={[collaborator]}
+                        hide={true}
+                    />) : ''
+                }
             </div>
 
             <div className={styles.form}>
