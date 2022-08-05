@@ -9,11 +9,19 @@ import { CustomerAddresses, Customers } from "../../pages/customers";
 import { Stocks } from "../../pages/stocks";
 
 import { api } from "../../services/api";
-import { AddButton } from "../AddButton";
+
+import { SaleButton } from "../SaleButton";
 import { EyeInfoForm } from "../EyeInfoForm";
 import { FormButton } from "../FormButton";
 
 import styles from "./styles.module.scss";
+
+type SaleProducts = {
+    spr_pro_id: string;
+    spr_desc: string;
+    spr_price: number;
+    spr_quantity: number;
+}
 
 export const SaleForm = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -21,12 +29,32 @@ export const SaleForm = () => {
     const [customerAddresses, setCustomerAddresses] = useState<CustomerAddresses[]>([]);
     const [stocks, setStocks] = useState<Stocks[]>([]);
 
+    const [saleProducts, setSaleProducts] = useState<SaleProducts[]>([]);
+
     const [currentProduct, setCurrentProduct] = useState("");
+    const [quantity, setQuantity] = useState<number>();
+
     const [currentCustomer, setCurrentCustomer] = useState("");;
+    const [currentAddress, setCurrentAddress] = useState("");;
+    const [deliveryDate, setDeliveryDate] = useState<Date>();;
 
     const [needDoctorPrescription, setNeedDoctorPrescription] = useState(false);
     const [rightEye, setRightEye] = useState(false);
     const [leftEye, setLeftEye] = useState(false);
+
+    const [dnpOd, setDnpOd] = useState<number>();
+    const [dnpOe, setDnpOe] = useState<number>();
+    const [heightSegment, setHeightSegment] = useState<number>();
+    const [dp, setDp] = useState<number>();
+    const [crm, setCrm] = useState("");
+
+    const [esfD, setEsfD] = useState<number>();
+    const [eixoD, setEixoD] = useState<number>();
+    const [cilD, setCilD] = useState<number>();
+
+    const [eixoE, setEixoE] = useState<number>();
+    const [esfE, setEsfE] = useState<number>();
+    const [cilE, setCilE] = useState<number>();
 
     const [signal, setSignal] = useState(false);
 
@@ -58,6 +86,31 @@ export const SaleForm = () => {
         });
     });
 
+    const handlerAddProductToSaleProducts = (e: FormEvent) => {
+        e.preventDefault();
+        if (quantity == 0 || !quantity || !products) return;
+        let salePro = [...saleProducts];
+
+        let desc: string = "";
+        let price: number = 0;
+
+        products.forEach(pro => {
+            if (pro.pro_id == currentProduct) {
+                desc = pro.pro_desc;
+                price = pro.pro_unit_price;
+            }
+        });
+
+        salePro.push({
+            spr_pro_id: currentProduct,
+            spr_quantity: quantity,
+            spr_desc: desc,
+            spr_price: price
+        });
+
+        setSaleProducts(salePro);
+    }
+
     const handlerCustomerSelection = (value: string) => {
         setCurrentCustomer(value);
 
@@ -75,10 +128,10 @@ export const SaleForm = () => {
 
                 <div className={styles.col_half}>
                     <div className={`${styles.input_group} ${styles.input_group_icon}`}>
-                        <select 
-                            name="stock" 
+                        <select
+                            name="stock"
                             id="stock"
-                            value={currentProduct} 
+                            value={currentProduct}
                             onChange={e => setCurrentProduct(e.target.value)}
                         >
                             <option value="">Selecione um produto</option>
@@ -93,7 +146,7 @@ export const SaleForm = () => {
                     </div>
                 </div>
 
-                <div className={`${styles.input_group} ${styles.input_group_icon}`}>
+                {/* <div className={`${styles.input_group} ${styles.input_group_icon}`}>
                     <input
                         type="search"
                         name=""
@@ -104,7 +157,7 @@ export const SaleForm = () => {
                         <BiSearchAlt className={`${styles.fa} ${styles.fa_user}`} />
                     </div>
                 </div>
-
+ */}
                 {currentProduct != "" ?
                     (
                         <>
@@ -113,6 +166,8 @@ export const SaleForm = () => {
                                     type="number"
                                     name=""
                                     id=""
+                                    value={quantity}
+                                    onChange={e => setQuantity(Number(e.target.value))}
                                     placeholder="Quantidade"
                                     required
                                 />
@@ -120,9 +175,26 @@ export const SaleForm = () => {
                                     <AiOutlineFieldNumber className={`${styles.fa} ${styles.fa_user}`} />
                                 </div>
                             </div>
+
+                            <SaleButton
+                                title="Adicionar Produto"
+                                func={e => handlerAddProductToSaleProducts(e)}
+                            />
                         </>
                     ) : ''
-            }
+                }
+
+                {saleProducts.length > 0 ?
+                    (
+                        <div className={styles.sale_products}>
+                            {saleProducts.map(spr => (
+                                <div className={styles.sal_pro}>
+                                    {spr.spr_desc} Qtde. {spr.spr_quantity} Total: R$ {spr.spr_price * spr.spr_quantity}
+                                </div>
+                            ))}
+                        </div>
+                    ) : ''
+                }
 
 
                 <h4>Cliente</h4>
@@ -144,7 +216,7 @@ export const SaleForm = () => {
                     </div>
                 </div>
 
-                <div className={`${styles.input_group} ${styles.input_group_icon}`}>
+                {/* <div className={`${styles.input_group} ${styles.input_group_icon}`}>
                     <input
                         type="text"
                         name=""
@@ -154,7 +226,7 @@ export const SaleForm = () => {
                     <div className={styles.input_icon}>
                         <BiSearchAlt className={`${styles.fa} ${styles.fa_user}`} />
                     </div>
-                </div>
+                </div> */}
 
                 {currentCustomer != ""
                     ? (
@@ -163,7 +235,12 @@ export const SaleForm = () => {
 
                             <div className={styles.col_half}>
                                 <div className={`${styles.input_group} ${styles.input_group_icon}`}>
-                                    <select name="customer_address" id="customer_address">
+                                    <select 
+                                        name="customer_address" 
+                                        id="customer_address"
+                                        value={currentAddress}
+                                        onChange={e => setCurrentAddress(e.target.value)}
+                                    >
                                         <option value="">Selecione um Endereço</option>
                                         {customerAddresses.map(cad => (
                                             <option value={cad.cad_id}>
@@ -174,7 +251,7 @@ export const SaleForm = () => {
                                 </div>
                             </div>
 
-                            <div className={`${styles.input_group} ${styles.input_group_icon}`}>
+                            {/* <div className={`${styles.input_group} ${styles.input_group_icon}`}>
                                 <input
                                     type="text"
                                     name=""
@@ -185,12 +262,14 @@ export const SaleForm = () => {
                                     <BiSearchAlt className={`${styles.fa} ${styles.fa_user}`} />
                                 </div>
                             </div>
-
+ */}
                             <div className={`${styles.input_group} ${styles.input_group_icon}`}>
                                 <input
                                     type="date"
                                     name=""
                                     id=""
+                                    value={deliveryDate?.toISOString()}
+                                    onChange={e => setDeliveryDate(new Date(e.target.value))}
                                 />
                                 <div className={styles.input_icon}>
                                     <MdDeliveryDining className={`${styles.fa} ${styles.fa_user}`} />
