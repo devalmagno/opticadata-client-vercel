@@ -19,8 +19,6 @@ export type Customers = {
     cus_phone: string;
     created_at: Date;
     updated_at: Date;
-
-    customerAddresses?: CustomerAddresses[];
 }
 
 export type CustomerAddresses = {

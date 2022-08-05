@@ -3,16 +3,16 @@ import { FiEdit } from "react-icons/fi";
 
 import { FormatedDateAndHour } from "../FormatedDateAndHour";
 
-import { Customers } from "../../pages/customers";
+import { CustomerAddresses } from "../../pages/customers";
 
 import styles from "./styles.module.scss";
 
 type Props = {
-    customers: Customers[];
+    customerAddresses: CustomerAddresses[];
     hide?: boolean;
 }
 
-export const CustomersTable = ({ customers, hide = false }: Props) => {
+export const CustomerAddressesTable = ({ customerAddresses, hide = false }: Props) => {
     const router = useRouter();
 
     const navigateToEditCustomer = (id: string) => {
@@ -21,22 +21,19 @@ export const CustomersTable = ({ customers, hide = false }: Props) => {
 
     return (
         <div className={styles.table_wrapper}>
-            <h4>Clientes</h4>
+            <h4>Endereços</h4>
 
             <table className={styles.fl_table}>
                 <thead>
                     <tr>
-                        <th>
-                            Data de Criação
+                       <th>
+                            Cidade
                         </th>
                         <th>
-                            Nome
+                            Bairro
                         </th>
                         <th>
-                            CPF
-                        </th>
-                        <th>
-                            Telefone
+                            Rua, Número
                         </th>
                         {
                             !hide ?
@@ -48,26 +45,21 @@ export const CustomersTable = ({ customers, hide = false }: Props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {customers.map(cus => (
-                        <tr key={cus.cus_id}>
-                            <td>
-                                <FormatedDateAndHour
-                                    date={cus.created_at}
-                                />
+                    {customerAddresses.map(cad => (
+                        <tr key={cad.cad_id}>
+                           <td>
+                                {cad.cad_city}
                             </td>
                             <td>
-                                {cus.cus_name}
+                                {cad.cad_district}
                             </td>
                             <td>
-                                {cus.cus_cpf}
-                            </td>
-                            <td>
-                                {cus.cus_phone}
+                                {cad.cad_desc}
                             </td>
                             {!hide ?
                                 <td
                                     style={{ cursor: "pointer" }}
-                                    onClick={() => navigateToEditCustomer(cus.cus_id)}
+                                    // onClick={() => navigateToEditCustomer(cus.cus_id)}
                                 >
                                     <FiEdit />
                                 </td> : <></>

@@ -64,7 +64,7 @@ export default function EditCollaborator() {
         api.post('/userlogs/create', {
             ulog_user_id: user?.user_id,
             ulog_user_cpf: user?.user_cpf,
-            ulog_action: "Criou Colaborador"
+            ulog_action: "Removeu Colaborador"
         }).then(res => {
             console.log("Log created.")
         }).catch(err => {
