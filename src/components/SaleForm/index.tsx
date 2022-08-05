@@ -243,8 +243,8 @@ export const SaleForm = () => {
 
                             <div className={styles.col_half}>
                                 <div className={`${styles.input_group} ${styles.input_group_icon}`}>
-                                    <select 
-                                        name="customer_address" 
+                                    <select
+                                        name="customer_address"
                                         id="customer_address"
                                         value={currentAddress}
                                         onChange={e => setCurrentAddress(e.target.value)}
@@ -343,6 +343,9 @@ export const SaleForm = () => {
                                     type="text"
                                     name=""
                                     id=""
+                                    value={dnpOe}
+                                    onChange={e => setDnpOe(Number(e.target.value))}
+
                                     placeholder="DNP Olho Esquerdo"
                                     required
                                 />
@@ -357,6 +360,9 @@ export const SaleForm = () => {
                                     type="text"
                                     name=""
                                     id=""
+                                    value={heightSegment}
+                                    onChange={e => setHeightSegment(Number(e.target.value))}
+
                                     placeholder="Altura de Segmento"
                                     required
                                 />
@@ -370,7 +376,10 @@ export const SaleForm = () => {
                                     type="text"
                                     name=""
                                     id=""
-                                    placeholder="dp"
+                                     value={dp}
+                                    onChange={e => setDp(Number(e.target.value))}
+
+                                   placeholder="dp"
                                     required
                                 />
                                 <div className={styles.input_icon}>
@@ -382,7 +391,9 @@ export const SaleForm = () => {
                                 <input
                                     type="text"
                                     name=""
-                                    id=""
+                                    id =""
+                                    value={crm}
+                                    onChange={e => setCrm(e.target.value)}
                                     placeholder="CRM do Médico Responsável"
                                     required
                                 />

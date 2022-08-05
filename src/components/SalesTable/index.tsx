@@ -1,17 +1,18 @@
 import { Sale } from "../../pages/orders";
+import { FcAbout } from "react-icons/fc";
 
-import { FormatedDate } from "../FormatedDate";
+import { FormatedDateAndHour } from "../FormatedDateAndHour";
 
 import styles from "./styles.module.scss";
 
 type Props = {
-    stockMoves: Sale[];
+    sales: Sale[];
 }
 
-export const SalesTable = () => {
+export const SalesTable = ({ sales }: Props) => {
 
     return (
-       <div className={styles.table_wrapper}>
+        <div className={styles.table_wrapper}>
             <table className={styles.fl_table}>
                 <thead>
                     <tr>
@@ -40,6 +41,29 @@ export const SalesTable = () => {
                     </tr>
                 </thead>
                 <tbody>
+                    {sales.map(sal => (
+                        <tr>
+                            <td>
+                                <FormatedDateAndHour
+                                    date={sal.sal_sold_at}  
+                                />
+                            </td>
+                            <td>
+                                 <FormatedDateAndHour
+                                    date={sal.sal_delivery_day}  
+                                />                               
+                            </td>
+                            <td>{sal.customer?.cus_name}</td>
+                            <td>{sal.collaborator?.col_name}</td>
+                            <td>{sal.sal_status_pay}</td>
+                            <td>{sal.fullPrice}</td>
+                            <td>{sal.sal_status}</td>
+                            <td>
+                                <FcAbout />
+                            </td>
+                        </tr>
+                    ))
+                    }
                 </tbody>
             </table>
         </div>
