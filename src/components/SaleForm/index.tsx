@@ -109,6 +109,8 @@ export const SaleForm = () => {
         });
 
         setSaleProducts(salePro);
+        setCurrentProduct("");
+        setQuantity(0);
     }
 
     const handlerCustomerSelection = (value: string) => {
