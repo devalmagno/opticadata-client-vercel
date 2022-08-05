@@ -50,12 +50,16 @@ export default function EditCollaborator() {
         api.delete(`/customers/${slug}`)
             .then(res => {
                 window.alert(`Cliente ${res.data.col_name} removido com sucesso`);
-            }).catch(err => console.log(err));
+            }).catch(err => {
+                console.log(err);
+                window.alert(err);
+                return;
+            });
 
         api.post('/userlogs/create', {
             ulog_user_id: user?.user_id,
             ulog_user_cpf: user?.user_cpf,
-            ulog_action: "Removeu Colaborador"
+            ulog_action: "Removeu Cliente"
         }).then(res => {
             console.log("Log created.")
         }).catch(err => {
