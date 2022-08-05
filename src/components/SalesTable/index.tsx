@@ -55,9 +55,9 @@ export const SalesTable = ({ sales }: Props) => {
                             </td>
                             <td>{sal.customer?.cus_name}</td>
                             <td>{sal.collaborator?.col_name}</td>
-                            <td>{sal.sal_status_pay}</td>
-                            <td>{sal.fullPrice}</td>
-                            <td>{sal.sal_status}</td>
+                            <td>{sal.sal_status_pay ? "Pago" : "Pendente"}</td>
+                            <td>R$ 55,85</td>
+                            <td>{sal.sal_status ? "Ativa" : "Desativada"}</td>
                             <td>
                                 <FcAbout />
                             </td>

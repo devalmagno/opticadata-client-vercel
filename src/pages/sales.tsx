@@ -98,6 +98,8 @@ export type EyeInfo = {
 
 const Sales = () => {
     const [sales, setSales] = useState<Sale[]>([]);
+    const [customers, setCustomers] = useState<Customer[]>([]);
+    const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
 
     const [sidebar, setSidebar] = useState(true);
 
@@ -106,7 +108,27 @@ const Sales = () => {
             .then(res => {
                 setSales(res.data);
             }).catch(err => console.log(err));
-    }, [])
+
+        api.get('/customers')
+            .then(res => {
+                setCustomers(res.data);
+            }).catch(err => console.log(err));
+
+        api.get('/collaborators')
+            .then(res => {
+                setCollaborators(res.data);
+            }).catch(err => console.log(err));
+    }, []);
+
+    sales.forEach(sal => {
+        collaborators.forEach(col => {
+            if (col.col_id == sal.sal_col_id) sal.collaborator = col;
+        });
+
+        customers.forEach(cus => {
+            if (cus.cus_id == sal.sal_cus_id) sal.customer = cus;
+        });
+    })
 
     return (
         <div className={

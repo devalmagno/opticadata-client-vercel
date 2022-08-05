@@ -48,15 +48,19 @@ export const SaleForm = () => {
     const [dp, setDp] = useState<number>();
     const [crm, setCrm] = useState("");
 
-    const [esfD, setEsfD] = useState<number>();
-    const [eixoD, setEixoD] = useState<number>();
-    const [cilD, setCilD] = useState<number>();
+    const [esfD, setEsfD] = useState<number>(0);
+    const [eixoD, setEixoD] = useState<number>(0);
+    const [cilD, setCilD] = useState<number>(0);
 
-    const [eixoE, setEixoE] = useState<number>();
-    const [esfE, setEsfE] = useState<number>();
-    const [cilE, setCilE] = useState<number>();
+    const [eixoE, setEixoE] = useState<number>(0);
+    const [esfE, setEsfE] = useState<number>(0);
+    const [cilE, setCilE] = useState<number>(0);
 
     const [signal, setSignal] = useState(false);
+    const [signalPrice, setSignalPrice] = useState(0);
+    const [fullPrice, setFullPrice] = useState(0);
+
+    const [paymentType, setPaymentType] = useState("");
 
     useEffect(() => {
         api.get('/products')
@@ -104,6 +108,7 @@ export const SaleForm = () => {
             if (pro.pro_id == currentProduct) {
                 desc = pro.pro_desc;
                 price = pro.pro_unit_price;
+                setFullPrice(fullPrice + price);
             }
         });
 
@@ -376,10 +381,10 @@ export const SaleForm = () => {
                                     type="text"
                                     name=""
                                     id=""
-                                     value={dp}
+                                    value={dp}
                                     onChange={e => setDp(Number(e.target.value))}
 
-                                   placeholder="dp"
+                                    placeholder="dp"
                                     required
                                 />
                                 <div className={styles.input_icon}>
@@ -391,7 +396,7 @@ export const SaleForm = () => {
                                 <input
                                     type="text"
                                     name=""
-                                    id =""
+                                    id=""
                                     value={crm}
                                     onChange={e => setCrm(e.target.value)}
                                     placeholder="CRM do Médico Responsável"
@@ -405,12 +410,24 @@ export const SaleForm = () => {
                             {rightEye
                                 ? <EyeInfoForm
                                     eye="Olho Direito"
+                                    cil={cilD}
+                                    eixo={eixoD}
+                                    esf={esfD}
+                                    setCil={setCilD}
+                                    setEixo={setEixoD}
+                                    setEsf={setEsfD}
                                 />
                                 : ''
                             }
 
                             {leftEye
                                 ? <EyeInfoForm
+                                    cil={cilE}
+                                    eixo={eixoE}
+                                    esf={esfE}
+                                    setCil={setCilE}
+                                    setEixo={setEixoE}
+                                    setEsf={setEsfE}
                                     eye="Olho Esquerdo"
                                 />
                                 : ''
@@ -423,7 +440,12 @@ export const SaleForm = () => {
                     <h4>Pagamento</h4>
 
                     <div className={`${styles.input_group} ${styles.input_group_icon}`}>
-                        <select name="payment_type" id="payment_type">
+                        <select
+                            name="payment_type"
+                            id="payment_type"
+                            value={paymentType}
+                            onChange={e => setPaymentType(e.target.value)}
+                        >
                             <option value="">Selecione um meio de pagamento</option>
                             <option value="Dinheiro">Dinheiro</option>
                             <option value="Pix">Pix</option>
@@ -434,7 +456,7 @@ export const SaleForm = () => {
 
                     <div className="box">
                         <strong>Valor Total: </strong>
-                        <span>R$ 49.50</span>
+                        <span>R$ {fullPrice}</span>
                     </div>
 
                     <div className={`${styles.input_group} ${styles.input_group_icon}`}>
@@ -457,6 +479,8 @@ export const SaleForm = () => {
                                         name=""
                                         id=""
                                         placeholder="Valor para sinal"
+                                        value={signalPrice}
+                                        onChange={e => setSignalPrice(Number(e.target.value))}
                                         required
                                     />
                                     <div className={styles.input_icon}>
@@ -464,10 +488,14 @@ export const SaleForm = () => {
                                     </div>
                                 </div>
 
-                                <div className={styles.box}>
-                                    <strong>Resto do valor: </strong>
-                                    <span>R$ 30</span>
-                                </div>
+                                {
+                                    signal ? (
+                                        <div className={styles.box}>
+                                            <strong>Resto do valor: </strong>
+                                            <span>R$ {(fullPrice - signalPrice).toFixed(2)}</span>
+                                        </div>
+                                    ) : ''
+                                }
                             </div>
                         ) : ''
                     }
