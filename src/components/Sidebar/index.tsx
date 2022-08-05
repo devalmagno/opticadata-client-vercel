@@ -168,10 +168,12 @@ const Sidebar = ({ setSidebar, sidebar }: Props) => {
                 ) : ''}
 
                 <li>
-                    <a onClick={() => { setShowOrderSidebar(!showOrderSidebar) }}>
+                    <Link href="/sales/create">
+                    <a>
                         <MdAddShoppingCart className={styles.icons} />
                         <span className={styles.links_name}>Fazer uma venda</span>
                     </a>
+                    </Link>
                     <span className={styles.tooltip}>Fazer uma venda</span>
                 </li>
 

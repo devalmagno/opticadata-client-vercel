@@ -86,6 +86,12 @@ export const SaleForm = () => {
         });
     });
 
+    const handlerDeliveryDate = (value: string) => {
+        const formatedDate = new Date(value);
+
+        setDeliveryDate(formatedDate);
+    }
+
     const handlerAddProductToSaleProducts = (e: FormEvent) => {
         e.preventDefault();
         if (quantity == 0 || !quantity || !products) return;
@@ -270,8 +276,7 @@ export const SaleForm = () => {
                                     type="date"
                                     name=""
                                     id=""
-                                    value={deliveryDate?.toISOString()}
-                                    onChange={e => setDeliveryDate(new Date(e.target.value))}
+                                    onChange={e => handlerDeliveryDate(e.target.value)}
                                 />
                                 <div className={styles.input_icon}>
                                     <MdDeliveryDining className={`${styles.fa} ${styles.fa_user}`} />
@@ -323,6 +328,8 @@ export const SaleForm = () => {
                                     name=""
                                     id=""
                                     placeholder="DNP Olho Direito"
+                                    value={dnpOd}
+                                    onChange={e => setDnpOd(Number(e.target.value))}
                                     required
                                 />
                                 <div className={styles.input_icon}>
