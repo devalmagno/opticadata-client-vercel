@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-import { CollaboratorForm } from "../../../components/CollaboratorForm";
+import { ProviderForm } from "../../../components/ProviderForm";
 import GoBack from "../../../components/GoBack";
 import Header from "../../../components/Header";
 import Sidebar from "../../../components/Sidebar";
 
 import styles from "./styles.module.scss";
 
-export default function Collaborator() {
+export default function CreateCustomer() {
     const [sidebar, setSidebar] = useState(true);
 
     return (
@@ -16,18 +16,18 @@ export default function Collaborator() {
                 `${styles.container} ${styles.active}`
                 : `${styles.container} ${styles.sidebar}`
         }>
-            <Header title="Adicionar Colaborador" />
+            <Header title="Adicionar Fornecedor" />
             <Sidebar
                 sidebar={sidebar}
                 setSidebar={setSidebar}
             />
 
             <GoBack 
-                title="Colaboradores" 
+                title="Clientes e Fornecedores" 
             />
 
             <div className={styles.form}>
-                <CollaboratorForm />
+                <ProviderForm />
             </div>
         </div>
     );

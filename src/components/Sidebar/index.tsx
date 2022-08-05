@@ -2,7 +2,7 @@ import Link from "next/link";
 import Router from "next/router";
 import { Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react";
 import { destroyCookie } from "nookies";
-import { MdAddShoppingCart } from "react-icons/md";
+import { MdAddShoppingCart, MdPeople } from "react-icons/md";
 
 import { BiGlassesAlt, BiUser, BiLogOut } from "react-icons/bi";
 import { IoGrid, IoBag, IoSettings } from "react-icons/io5";
@@ -52,15 +52,15 @@ const Sidebar = ({ setSidebar, sidebar }: Props) => {
     }, []);
 
     const handleLogOut = () => {
-            api.post('/userlogs/create', {
-                ulog_user_id: user?.user_id,
-                ulog_user_cpf: user?.user_cpf,
-                ulog_action: "Loggof"
-            }).then(res => {
-                console.log("Log created.")
-            }).catch(err => {
-                console.log(err);
-            });
+        api.post('/userlogs/create', {
+            ulog_user_id: user?.user_id,
+            ulog_user_cpf: user?.user_cpf,
+            ulog_action: "Loggof"
+        }).then(res => {
+            console.log("Log created.")
+        }).catch(err => {
+            console.log(err);
+        });
 
         destroyCookie(null, "opdauth.token");
 
@@ -173,6 +173,16 @@ const Sidebar = ({ setSidebar, sidebar }: Props) => {
                         <span className={styles.links_name}>Fazer uma venda</span>
                     </a>
                     <span className={styles.tooltip}>Fazer uma venda</span>
+                </li>
+
+                <li>
+                    <Link href="/customers">
+                        <a>
+                            <MdPeople className={styles.icons} />
+                            <span className={styles.links_name}>Clientes e Fornecedores</span>
+                        </a>
+                    </Link>
+                    <span className={styles.tooltip}>Clientes e Fornecedores</span>
                 </li>
             </ul>
 

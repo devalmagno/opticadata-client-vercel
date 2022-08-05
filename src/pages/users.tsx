@@ -69,7 +69,7 @@ const Users = () => {
                 `${styles.container} ${styles.active}`
                 : `${styles.container} ${styles.sidebar}`
         }>
-            <Header title="Usuários" />
+            <Header title="Colaboradores e Usuários" />
             <Sidebar
                 sidebar={sidebar}
                 setSidebar={setSidebar}

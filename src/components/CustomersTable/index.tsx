@@ -1,28 +1,34 @@
 import { useRouter } from "next/router";
 import { FiEdit } from "react-icons/fi";
 
-import { Collaborator } from "../../pages/users";
+import { FormatedDateAndHour } from "../FormatedDateAndHour";
+
+import { Customers } from "../../pages/customers";
 
 import styles from "./styles.module.scss";
 
 type Props = {
-    collaborators: Collaborator[];
+    customers: Customers[];
     hide?: boolean;
 }
 
-export const CollaboratorTable = ({ collaborators, hide = false }: Props) => {
+export const CustomersTable = ({ customers, hide = false }: Props) => {
     const router = useRouter();
 
     const navigateToEditCollaborator = (id: string) => {
-        router.push(`/collaborators/edit/${id}`);
+        router.push(`/customers/edit/${id}`);
     }
 
     return (
         <div className={styles.table_wrapper}>
+            <h4>Clientes</h4>
 
             <table className={styles.fl_table}>
                 <thead>
                     <tr>
+                        <th>
+                            Data de Criação
+                        </th>
                         <th>
                             Nome
                         </th>
@@ -30,10 +36,7 @@ export const CollaboratorTable = ({ collaborators, hide = false }: Props) => {
                             CPF
                         </th>
                         <th>
-                            Usuário
-                        </th>
-                        <th>
-                            Cargo
+                            Telefone
                         </th>
                         {
                             !hide ?
@@ -45,22 +48,26 @@ export const CollaboratorTable = ({ collaborators, hide = false }: Props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {collaborators.map(col => (
-                        <tr key={col.col_id}>
+                    {customers.map(cus => (
+                        <tr key={cus.cus_id}>
                             <td>
-                                {col.col_name}
+                                <FormatedDateAndHour
+                                    date={cus.created_at}
+                                />
                             </td>
                             <td>
-                                {col.col_cpf}
+                                {cus.cus_name}
                             </td>
                             <td>
-                                {col.isUser ? "Sim" : "Não"}
+                                {cus.cus_cpf}
                             </td>
-                            <td>{col.col_function}</td>
+                            <td>
+                                {cus.cus_phone}
+                            </td>
                             {!hide ?
                                 <td
                                     style={{ cursor: "pointer" }}
-                                    onClick={() => navigateToEditCollaborator(col.col_id)}
+                                    // onClick={() => navigateToEditCollaborator(col.col_id)}
                                 >
                                     <FiEdit />
                                 </td> : <></>

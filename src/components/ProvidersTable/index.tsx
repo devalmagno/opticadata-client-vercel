@@ -1,39 +1,42 @@
 import { useRouter } from "next/router";
 import { FiEdit } from "react-icons/fi";
 
-import { Collaborator } from "../../pages/users";
+import { FormatedDateAndHour } from "../FormatedDateAndHour";
+
+import { Providers } from "../../pages/customers";
 
 import styles from "./styles.module.scss";
 
 type Props = {
-    collaborators: Collaborator[];
+    providers: Providers[];
     hide?: boolean;
 }
 
-export const CollaboratorTable = ({ collaborators, hide = false }: Props) => {
+export const ProvidersTable = ({ providers, hide = false }: Props) => {
     const router = useRouter();
 
-    const navigateToEditCollaborator = (id: string) => {
-        router.push(`/collaborators/edit/${id}`);
+    const navigateToEditProvider = (id: string) => {
+        router.push(`/providers/edit/${id}`);
     }
 
     return (
         <div className={styles.table_wrapper}>
+            <h4>Fornecedores</h4>
 
             <table className={styles.fl_table}>
                 <thead>
                     <tr>
                         <th>
-                            Nome
+                            Data de Criação
                         </th>
                         <th>
-                            CPF
+                            Nome Fornecedor
                         </th>
                         <th>
-                            Usuário
+                            CNPJ
                         </th>
                         <th>
-                            Cargo
+                            Email
                         </th>
                         {
                             !hide ?
@@ -45,22 +48,26 @@ export const CollaboratorTable = ({ collaborators, hide = false }: Props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {collaborators.map(col => (
-                        <tr key={col.col_id}>
+                    {providers.map(prov => (
+                        <tr key={prov.prov_id}>
                             <td>
-                                {col.col_name}
+                                <FormatedDateAndHour
+                                    date={prov.created_at}
+                                />
                             </td>
                             <td>
-                                {col.col_cpf}
+                                {prov.prov_desc}
                             </td>
                             <td>
-                                {col.isUser ? "Sim" : "Não"}
+                                {prov.prov_cnpj}
                             </td>
-                            <td>{col.col_function}</td>
+                            <td>
+                                {prov.prov_email}
+                            </td>
                             {!hide ?
                                 <td
                                     style={{ cursor: "pointer" }}
-                                    onClick={() => navigateToEditCollaborator(col.col_id)}
+                                    // onClick={() => navigateToEditCollaborator(col.col_id)}
                                 >
                                     <FiEdit />
                                 </td> : <></>
