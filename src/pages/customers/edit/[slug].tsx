@@ -49,7 +49,7 @@ export default function EditCollaborator() {
 
         api.delete(`/customers/${slug}`)
             .then(res => {
-                window.alert(`Cliente ${res.data.col_name} removido com sucesso`);
+                window.alert(`Cliente ${res.data.cus_name} removido com sucesso`);
             }).catch(err => {
                 console.log(err);
                 window.alert(err);

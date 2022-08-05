@@ -10,7 +10,6 @@ import { api } from "../../services/api";
 import { FormButton } from "../FormButton";
 
 import styles from "./styles.module.scss";
-import { RemoveButton } from "../RemoveButton";
 
 type Props = {
     collaborator: Collaborator;
@@ -20,23 +19,12 @@ export const EditCollaboratorForm = ({ collaborator }: Props) => {
     const { user } = useContext(AuthContext);
     const [name, setName] = useState(collaborator.col_name);
     const [occupation, setOccupation] = useState(collaborator.col_function);
-    const [cpf, setCPF] = useState(collaborator.col_cpf);
 
     const [createUser, setCreateUser] = useState(false);
     const [userIsAdmin, setUserIsAdmin] = useState(false);
     const [password, setPassword] = useState("");
 
     const router = useRouter();
-
-    const handleCPF = (e: KeyboardEvent<HTMLInputElement>) => {
-        const regex = /[0-9]|\./;
-
-        if (e.key == 'Backspace') return;
-        if (!regex.test(e.key)) e.preventDefault();
-        if (cpf.length == 3) setCPF(`${cpf}.`);
-        if (cpf.length == 7) setCPF(`${cpf}.`);
-        if (cpf.length == 11) setCPF(`${cpf}-`);
-    }
 
     const handlerCreateUser = () => {
         api.post('/users/create', {
@@ -71,7 +59,6 @@ export const EditCollaboratorForm = ({ collaborator }: Props) => {
         api.put(`/collaborators/${collaborator.col_id}`, {
             col_name: name,
             col_function: occupation,
-            col_cpf: cpf
         }).then(res => {
             window.alert(`Colaborador ${res.data.col_name} alterado com sucesso!`)
         }).catch(err => {
@@ -111,22 +98,6 @@ export const EditCollaboratorForm = ({ collaborator }: Props) => {
                         />
                         <div className={styles.input_icon}>
                             <FaUser className={`${styles.fa} ${styles.fa_user}`} />
-                        </div>
-                    </div>
-
-                    <div className={`${styles.input_group} ${styles.input_group_icon}`}>
-                        <input
-                            type="text"
-                            value={cpf}
-                            onChange={(e) => setCPF(e.target.value)}
-                            onKeyDown={(e) => handleCPF(e)}
-                            name=""
-                            id=""
-                            maxLength={14}
-                            placeholder="CPF"
-                        />
-                        <div className={styles.input_icon}>
-                            <HiIdentification className={`${styles.fa} ${styles.fa_user}`} />
                         </div>
                     </div>
 

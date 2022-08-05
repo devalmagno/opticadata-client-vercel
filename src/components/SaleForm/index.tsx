@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { AiOutlineFieldNumber, AiFillEye } from "react-icons/ai";
 import { BiSearchAlt } from "react-icons/bi";
 import { HiIdentification } from "react-icons/hi";
 import { MdAttachMoney, MdDeliveryDining } from "react-icons/md";
 
 import { Product } from "../../pages/orders";
+import { CustomerAddresses, Customers } from "../../pages/customers";
 import { Stocks } from "../../pages/stocks";
 
 import { api } from "../../services/api";
@@ -16,6 +17,8 @@ import styles from "./styles.module.scss";
 
 export const SaleForm = () => {
     const [products, setProducts] = useState<Product[]>([]);
+    const [customers, setCustomers] = useState<Customers[]>([]);
+    const [customerAddresses, setCustomerAddresses] = useState<CustomerAddresses[]>([]);
     const [stocks, setStocks] = useState<Stocks[]>([]);
 
     const [currentProduct, setCurrentProduct] = useState("");
@@ -39,6 +42,13 @@ export const SaleForm = () => {
                 setStocks(res.data);
             })
             .catch(err => console.log(err));
+
+        api.get('/customers')
+            .then(res => {
+                setCustomers(res.data);
+            })
+            .catch(err => console.log(err));
+
     }, []);
 
     products.forEach(pro => {
@@ -48,6 +58,15 @@ export const SaleForm = () => {
         });
     });
 
+    const handlerCustomerSelection = (value: string) => {
+        setCurrentCustomer(value);
+
+        api.get(`/customeraddresses/${value}`)
+            .then(res => {
+                setCustomerAddresses(res.data);
+            })
+            .catch(err => console.log(err));
+    }
 
     return (
         <div className={styles.container}>
@@ -56,7 +75,12 @@ export const SaleForm = () => {
 
                 <div className={styles.col_half}>
                     <div className={`${styles.input_group} ${styles.input_group_icon}`}>
-                        <select name="stock" id="stock">
+                        <select 
+                            name="stock" 
+                            id="stock"
+                            value={currentProduct} 
+                            onChange={e => setCurrentProduct(e.target.value)}
+                        >
                             <option value="">Selecione um produto</option>
                             {stocks.map(sto => (
                                 <option key={sto.sto_id} value={sto.sto_pro_id}>
@@ -71,7 +95,7 @@ export const SaleForm = () => {
 
                 <div className={`${styles.input_group} ${styles.input_group_icon}`}>
                     <input
-                        type="text"
+                        type="search"
                         name=""
                         id=""
                         placeholder="Pesquisar Produto"
@@ -81,25 +105,41 @@ export const SaleForm = () => {
                     </div>
                 </div>
 
-                <div className={`${styles.input_group} ${styles.input_group_icon}`}>
-                    <input
-                        type="number"
-                        name=""
-                        id=""
-                        placeholder="Quantidade"
-                        required
-                    />
-                    <div className={styles.input_icon}>
-                        <AiOutlineFieldNumber className={`${styles.fa} ${styles.fa_user}`} />
-                    </div>
-                </div>
+                {currentProduct != "" ?
+                    (
+                        <>
+                            <div className={`${styles.input_group} ${styles.input_group_icon}`}>
+                                <input
+                                    type="number"
+                                    name=""
+                                    id=""
+                                    placeholder="Quantidade"
+                                    required
+                                />
+                                <div className={styles.input_icon}>
+                                    <AiOutlineFieldNumber className={`${styles.fa} ${styles.fa_user}`} />
+                                </div>
+                            </div>
+                        </>
+                    ) : ''
+            }
 
 
                 <h4>Cliente</h4>
                 <div className={styles.col_half}>
                     <div className={`${styles.input_group} ${styles.input_group_icon}`}>
-                        <select name="customer" id="customer">
+                        <select
+                            name="customer"
+                            id="customer"
+                            value={currentCustomer}
+                            onChange={e => handlerCustomerSelection(e.target.value)}
+                        >
                             <option value="">Selecione um cliente</option>
+                            {customers.map(cus => (
+                                <option value={cus.cus_id}>
+                                    {cus.cus_name} - {cus.cus_cpf}
+                                </option>
+                            ))}
                         </select>
                     </div>
                 </div>
@@ -123,8 +163,13 @@ export const SaleForm = () => {
 
                             <div className={styles.col_half}>
                                 <div className={`${styles.input_group} ${styles.input_group_icon}`}>
-                                    <span>Endereço: </span>
                                     <select name="customer_address" id="customer_address">
+                                        <option value="">Selecione um Endereço</option>
+                                        {customerAddresses.map(cad => (
+                                            <option value={cad.cad_id}>
+                                                {cad.cad_desc} - {cad.cad_district}, {cad.cad_city}
+                                            </option>
+                                        ))}
                                     </select>
                                 </div>
                             </div>

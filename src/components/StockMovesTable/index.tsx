@@ -68,7 +68,7 @@ export const StockMovesTable = ({ stockMoves }: Props) => {
                                 {smo.smo_quantity}
                             </td>
                             <td>
-                                {smo.smo_quantity}
+                                {smo.smo_unit_price}
                             </td>
                             <td>
                                 <FormatedDate

@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 
 import { RemoveButton } from "../../../components/RemoveButton";
 import { CollaboratorTable } from "../../../components/CollaboratorTable";
+import { CollaboratorLogsTable } from "../../../components/CollaboratorLogsTable";
 import { EditCollaboratorForm } from "../../../components/EditCollaboratorForm";
 import GoBack from "../../../components/GoBack";
 import Header from "../../../components/Header";
@@ -21,12 +22,20 @@ type User = {
     user_is_admin: string;
 }
 
+type CollaboratorLogs = {
+    clog_id: string;
+    clog_col_id: string;
+    clog_old_col_function: string;
+    created_at: Date;
+}
+
 export default function EditCollaborator() {
     const { user } = useContext(AuthContext);
 
     const router = useRouter();
     const [sidebar, setSidebar] = useState(true);
     const [collaborator, setCollaborator] = useState<Collaborator | null>(null);
+    const [collaboratorLogs, setCollaboratorLogs] = useState<CollaboratorLogs[]>([]);
     const [users, setUsers] = useState<User[]>([]);
 
     let modifyCollaborator: Collaborator;
@@ -43,6 +52,11 @@ export default function EditCollaborator() {
             api.get(`/users/`)
                 .then(res => {
                     setUsers(res.data);
+                }).catch(err => console.log(err));
+
+            api.get(`/collaborator/logs/${slug}`)
+                .then(res => {
+                    setCollaboratorLogs(res.data);
                 }).catch(err => console.log(err));
         }
     }, []);
@@ -92,10 +106,25 @@ export default function EditCollaborator() {
 
             <div className={styles.tables}>
                 {collaborator ?
-                    (<CollaboratorTable
-                        collaborators={[collaborator]}
-                        hide={true}
-                    />) : ''
+                    (
+                        <>
+                            <CollaboratorTable
+                                collaborators={[collaborator]}
+                                hide={true}
+                            />
+
+                        </>
+                    ) : ''
+                }
+
+                {collaboratorLogs ?
+                    (
+                        <CollaboratorLogsTable
+                            collaboratorLogs={collaboratorLogs}
+                            hide={true}
+                        />
+
+                    ) : ''
                 }
             </div>
 
