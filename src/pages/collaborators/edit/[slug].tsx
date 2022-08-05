@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { RemoveButton } from "../../../components/RemoveButton";
 import { CollaboratorTable } from "../../../components/CollaboratorTable";
@@ -12,6 +12,7 @@ import { api } from "../../../services/api";
 import { Collaborator } from "../../users";
 
 import styles from "./styles.module.scss";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 type User = {
     user_id: string;
@@ -21,6 +22,8 @@ type User = {
 }
 
 export default function EditCollaborator() {
+    const { user } = useContext(AuthContext);
+
     const router = useRouter();
     const [sidebar, setSidebar] = useState(true);
     const [collaborator, setCollaborator] = useState<Collaborator | null>(null);
@@ -49,7 +52,26 @@ export default function EditCollaborator() {
     });
 
     const handlerRemoveCollaborator = () => {
+        const isConfirmed = window.confirm(`Tem certeza que deseja remover o colaborador ${collaborator?.col_name}?`)
+
+        if (!isConfirmed) return;
+
         api.delete(`/collaborators/${slug}`)
+            .then(res => {
+                window.alert(`Colaborador ${res.data.col_name} removido com sucesso`);
+            }).catch(err => console.log(err));
+
+        api.post('/userlogs/create', {
+            ulog_user_id: user?.user_id,
+            ulog_user_cpf: user?.user_cpf,
+            ulog_action: "Criou Colaborador"
+        }).then(res => {
+            console.log("Log created.")
+        }).catch(err => {
+            console.log(err);
+        });
+
+        router.push('/users');
     }
 
     return (
@@ -87,6 +109,7 @@ export default function EditCollaborator() {
 
             <RemoveButton
                 title="Colaborador"
+                handlerRemove={handlerRemoveCollaborator}
             />
 
         </div>
